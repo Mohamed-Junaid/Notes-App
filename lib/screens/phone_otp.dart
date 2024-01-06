@@ -5,7 +5,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_notes/screens/home_page.dart';
 import 'package:personal_notes/screens/login_screen.dart';
-import 'package:personal_notes/screens/toastMessage.dart';
+import 'package:personal_notes/common/toastMessage.dart';
 
 
 class PhoneOTP extends StatefulWidget {

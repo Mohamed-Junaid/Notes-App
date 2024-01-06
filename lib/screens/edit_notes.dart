@@ -1,9 +1,11 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:personal_notes/common/toastMessage.dart';
 
 class EditNoteScreen extends StatelessWidget {
   final String title;
@@ -20,11 +22,31 @@ class EditNoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController title = TextEditingController();
-    TextEditingController content = TextEditingController();
+    TextEditingController titleController = TextEditingController();
+    TextEditingController contentController = TextEditingController();
 
+    void fetchNoteData() async {
+      DocumentSnapshot noteSnapshot =
+      await FirebaseFirestore.instance.collection('Notes App').doc(id).get();
 
-    final databaseRef = FirebaseDatabase.instance.ref('Notes App');
+      if (noteSnapshot.exists) {
+        Map<String, dynamic> noteData = noteSnapshot.data() as Map<String, dynamic>;
+        titleController.text = noteData['title'];
+        contentController.text = noteData['content'];
+      }
+    }
+    fetchNoteData();
+    void updateNote() {
+      FirebaseFirestore.instance.collection('Notes App').doc(id).update({
+        'title': titleController.text,
+        'content': contentController.text,
+        'time': DateTime.now().toString(),
+      }).then((_) {
+        Navigator.pop(context);
+      }).catchError((error) {
+        ToastMessage().toastmessage(message:'Updated');
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Note'),
@@ -35,7 +57,7 @@ class EditNoteScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
-              controller: title,
+              controller: titleController,
               decoration: InputDecoration(
                 labelText: 'Title',
                 border: OutlineInputBorder(),
@@ -43,7 +65,7 @@ class EditNoteScreen extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             TextFormField(
-              controller: content,
+              controller: contentController,
               decoration: InputDecoration(
                 labelText: 'Content',
                 border: OutlineInputBorder(),
@@ -53,12 +75,7 @@ class EditNoteScreen extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-               databaseRef.update({
-                      'title': title.text,
-                      'content': content.text,
-                    })
-                    .then((_) {})
-                    .catchError((error) {});
+                updateNote();
               },
               child: Container(
                 margin: EdgeInsets.only(

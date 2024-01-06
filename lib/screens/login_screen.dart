@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notes/screens/signup_screen.dart';
-import 'package:personal_notes/screens/toastMessage.dart';
+import 'package:personal_notes/common/toastMessage.dart';
 
 import 'home_page.dart';
 

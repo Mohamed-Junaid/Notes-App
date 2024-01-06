@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal_notes/screens/phone_otp.dart';
 
-import 'toastMessage.dart';
+import '../common/toastMessage.dart';
 
-class phoneAuth extends StatefulWidget {
-  const phoneAuth({Key? key}) : super(key: key);
+class PhoneAuth extends StatefulWidget {
+  const PhoneAuth({Key? key}) : super(key: key);
 
   @override
-  State<phoneAuth> createState() => _phoneAuthState();
+  State<PhoneAuth> createState() => _PhoneAuthState();
 }
 
 TextEditingController phone = TextEditingController();
 FirebaseAuth auth = FirebaseAuth.instance;
 
-class _phoneAuthState extends State<phoneAuth> {
+class _PhoneAuthState extends State<PhoneAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +63,7 @@ class _phoneAuthState extends State<phoneAuth> {
                   child: GestureDetector(onTap: () {
                     auth.verifyPhoneNumber(phoneNumber: phone.text,verificationCompleted: (_){},
                         verificationFailed: (e){
-                          ToastMessage().toastmessage(message:'Error');
+                          print('Verification failed: ${e.message}');
                         },
                         codeSent: (String verificationId,int? token){
                           Navigator.of(context).push(MaterialPageRoute(builder:

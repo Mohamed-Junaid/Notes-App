@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:personal_notes/screens/profile.dart';
-import 'package:personal_notes/screens/toastMessage.dart';
+import 'package:personal_notes/common/toastMessage.dart';
 
 import 'create_note.dart';
 import 'edit_notes.dart';

@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:personal_notes/screens/home_page.dart';
 import 'package:personal_notes/screens/login_screen.dart';
 import 'package:personal_notes/screens/phone_auth.dart';
-import 'package:personal_notes/screens/toastMessage.dart';
+import 'package:personal_notes/common/toastMessage.dart';
 
 import '../firebase/auth_service.dart';
 
@@ -136,13 +136,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 action: TextInputAction.next,
                 controller: password,
               ),
-
-
                  GestureDetector(
                   onTap: () {
                     auth.createUserWithEmailAndPassword(email: email.text, password: password.text,).then((value) => {
                       ToastMessage().toastmessage(message: 'Successfully registered')
-                    }).onError((error, stackTrace) => ToastMessage().toastmessage(message: 'something went wrong'));
+                    }).onError((error, stackTrace) => ToastMessage().toastmessage(message:
+                    'something went wrong'));
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 32.h, left: 24.w, right: 24.w),
@@ -201,7 +200,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Row(
                   children: [
                     GestureDetector(  onTap: () {
-                      AuthService().signInWithGoogle(context);
+                      AuthService().signInWithGoogle(context).catchError((error) {
+
+                        print('Error signing in with Google: $error');
+
+                      });
+
                     },
                       child: CircleAvatar(
                         radius: 24.r,
@@ -218,7 +222,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       width: 55.w,
                     ),
                     GestureDetector(onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_)=>phoneAuth()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_)=>PhoneAuth()));
                     },
                       child: CircleAvatar(
                         radius: 24.r,
